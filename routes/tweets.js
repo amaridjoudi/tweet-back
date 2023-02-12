@@ -26,13 +26,19 @@ router.post("/newtweet", (req, res) => {
 });
 //------------------------------------------------------------------------------
 router.get("/alltweet", (req, res) => {
-  Tweet.find().then((data) => {
-    if (data) {
-      res.json({ result: true, tweets: data });
-    } else {
-      res.json({ result: false, false: "no tweet" });
-    }
-  });
+  Tweet.find()
+    .populate("user")
+    .then((data) => {
+      if (data) {
+        console.log(data.user);
+        res.json({
+          result: true,
+          tweets: data,
+        });
+      } else {
+        res.json({ result: false, false: "no tweet" });
+      }
+    });
 });
 
 //------------------------------------------------------------------------------
